@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Consulta</title>
+</head>
+<body>
+    <h1>Resultados de la Consulta</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <!-- Asegúrate de ajustar los encabezados de acuerdo a las columnas de tu tabla -->
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Pelo</th>
+                <th>Raza</th>
+                <th>Genero</th>
+                <th>Color</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="http://127.0.0.1:5000/"><h1>Volver al inicio</h1></a>
+</body>
+</html>
