@@ -18,8 +18,8 @@ def get_db_connection():
     )
     return connection
 
-@app.route('/read')
-def read():
+@app.route('/personajes')
+def lista():
     connection = get_db_connection()
     myCursor = connection.cursor()
     query = "SELECT nombre, edad, pelo, raza, genero, color FROM pj"
@@ -28,9 +28,27 @@ def read():
     myCursor.close()
     connection.close()
 
-    return render_template('read.html', results=result)
+    return render_template('personajes.html', results=result)
 
-@app.route('/pj', methods=['GET', 'POST'])
+@app.route('/editar')
+def editar():
+    return 'Editar personaje'
+
+@app.route('/agregar')
+def agregar():
+    return 'Agregar personaje'
+
+if __name__=="__main__":
+    app.run(debug=True)
+
+
+
+
+
+
+
+
+'''@app.route('/personajes', methods=['GET', 'POST'])
 def pj():
     if request.method =='POST':
         id_char= request.form['id_pj']
@@ -45,11 +63,7 @@ def pj():
         myCursor.close()
         connection.close()
 
-    return render_template('read.html', results=result)
-
-
-if __name__=="__main__":
-    app.run(debug=True)
+    return render_template('read.html', results=result)'''
 
     
 '''def root():
