@@ -39,7 +39,12 @@ INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES
 ('Aladdin', 'joven', 'chaleco rojo', 'negro', 'humana', 'hombre', 'marrón'),
 ('Peter Pan', 'joven', 'pantalones verdes', 'rubio', 'humana', 'hombre', 'verde'),
 ('Pinocho', 'niño', 'pantalones cortos de madera', 'negro', 'muñeco de madera', 'hombre', 'azul'),
-('Hércules', 'adulto', 'túnica roja', 'negro', 'semidios', 'hombre', 'rojo');
+('Hércules', 'adulto', 'túnica roja', 'negro', 'semidios', 'hombre', 'rojo'),
+('Pato Donald ', 'adulto', 'chaqueta azul', 'ninguno', 'pato', 'hombre', 'azul'),
+('Goofy', 'adulto', 'chaleco naranja', 'negro', 'perro', 'hombre', 'naranja'),
+('Minnie Mouse', 'adulto', 'vestido rojo', 'negro', 'ratón', 'mujer', 'rojo'),
+('Pluto', 'adulto', 'ninguna', 'amarillo', 'perro', 'hombre', 'amarillo'),
+('Daisy ', 'adulto', 'vestido morado', 'ninguno', 'pato', 'mujer', 'violeta');
 
 SELECT * FROM personajes_test.pj;
 
