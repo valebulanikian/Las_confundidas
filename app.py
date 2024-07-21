@@ -25,6 +25,7 @@ def lista():
     query = "SELECT nombre, edad, pelo, raza, genero, color FROM pj"
     myCursor.execute(query)
     result = myCursor.fetchall()
+    
     myCursor.close()
     connection.close()
 
@@ -32,7 +33,77 @@ def lista():
 
 @app.route('/editar')
 def editar():
-    return 'Editar personaje'
+    connection = get_db_connection()
+    myCursor = connection.cursor()
+    query = "SELECT id, nombre, edad, pelo, raza, genero, color FROM pj"
+    myCursor.execute(query)
+    result = myCursor.fetchall()
+    myCursor.close()
+    connection.close()
+
+    return render_template('editar.html', results=result)
+
+@app.route('/listo', methods=['GET', 'POST'])
+def listo():
+    if request.method == 'POST':
+        id = request.form.get('id') 
+        nombre = request.form.get('nombre')
+        edad = request.form.get('edad')
+        pelo = request.form.get('pelo')
+        raza = request.form.get('raza')
+        genero = request.form.get('genero')
+        color = request.form.get('color')
+        
+        if not id:
+            mensajes="ID no proporcionado."
+            return mensajes
+        
+        try:
+            connection = get_db_connection()
+            myCursor = connection.cursor()
+            query = """
+                UPDATE pj 
+                SET nombre = %s, edad = %s, pelo = %s, raza = %s, genero = %s, color = %s
+                WHERE id = %s
+            """
+            valores = (nombre, edad, pelo, raza, genero, color, id)
+            myCursor.execute(query, valores)
+            connection.commit()
+            myCursor.close()
+            connection.close()
+            mensaje = "Registro actualizado exitosamente."
+        except Exception as e:
+            mensaje = f"Error al actualizar el registro: {e}"
+
+        return render_template('listo.html', mensaje=mensaje)
+    return render_template('listo.html')
+
+@app.route('/eliminar', methods=['GET', 'POST'])
+def eliminar():
+    if request.method == "POST":
+        id=request.form.get('id')
+
+    if not id:
+            mensajes="ID no proporcionado."
+            return mensajes
+    
+    try:
+            connection = get_db_connection()
+            myCursor = connection.cursor()
+            query = """
+                DELETE FROM pj
+                WHERE id = %s
+            """
+            myCursor.execute(query, (id,))
+            connection.commit()
+            myCursor.close()
+            connection.close()
+            mensaje = "Registro eliminado"
+    except Exception as e:
+            mensaje = f"Error al eliminar el registro: {e}"
+
+    return render_template('editar.html', mensaje=mensaje)
+
 
 @app.route('/agregar')
 def agregar():
