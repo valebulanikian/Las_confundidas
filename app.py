@@ -105,6 +105,19 @@ def eliminar():
     return render_template('editar.html', mensaje=mensaje)
 
 
+@app.route('/agregar', methods=['GET', 'POST'])
+def agregar():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        edad = request.form['edad']
+        ropa = request.form['ropa']
+        pelo = request.form['pelo']
+        raza = request.form['raza']
+        genero = request.form['genero']
+        color = request.form['color']
+    return render_template('agregar.html')
+
+
 @app.route('/agregar')
 def agregar():
     return 'Agregar personaje'

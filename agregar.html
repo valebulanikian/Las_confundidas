@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Personaje</title>
+</head>
+<body>
+    <h1>Agregar Nuevo Personaje</h1>
+    <form action="/agregar" method="POST">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+        
+        <label for="edad">Edad:</label><br>
+        <input type="text" id="edad" name="edad" placeholder="Joven, adulto, niño" required><br><br>
+        
+        <label for="ropa">Ropa:</label><br>
+        <input type="text" id="ropa" name="ropa" required><br><br>
+        
+        <label for="pelo">Pelo:</label><br>
+        <input type="text" id="pelo" name="pelo" placeholder="Rubio, negro, sin pelo" required><br><br>
+        
+        <label for="raza">Raza:</label><br>
+        <input type="text" id="raza" name="raza" placeholder="Humano, no humano, animal" required><br><br>
+        
+        <label for="genero">Género:</label><br>
+        <input type="text" id="genero" name="genero" placeholder="Mujer/hombre" required><br><br>
+        
+        <label for="color">Color:</label><br>
+        <input type="text" id="color" name="color" placeholder="Color que identifica a tu personaje" required><br><br>
+        
+        <button type="submit">Agregar</button>
+    </form>
+    <a href="http://127.0.0.1:5000/"><h2>Volver al inicio</h2></a>
+</body>
+</html>
