@@ -1,13 +1,15 @@
-from flask import Flask, jsonify, request, render_template # type: ignore
+from flask import Flask, flash, jsonify, redirect, request, render_template, url_for # type: ignore
 import mysql.connector
 
 app=Flask(__name__)
+app.secret_key= 'mysecretkey'
 
 @app.route('/') #Decorador, endpoint
 
 def home():
     return render_template('index.html')
 
+#MYSQL CONEXION
 def get_db_connection():
     connection = mysql.connector.connect(
         host="localhost",
@@ -35,74 +37,73 @@ def lista():
 def editar():
     connection = get_db_connection()
     myCursor = connection.cursor()
-    query = "SELECT id, nombre, edad, pelo, raza, genero, color FROM pj"
+    query = "SELECT * FROM pj"
     myCursor.execute(query)
     result = myCursor.fetchall()
+    
+    #Cerrar conexion
     myCursor.close()
     connection.close()
-
     return render_template('editar.html', results=result)
 
-@app.route('/listo', methods=['GET', 'POST'])
-def listo():
+
+@app.route('/listo/<string:id>', methods=['POST','GET'])
+def listo(id):
+        connection = get_db_connection()
+        myCursor = connection.cursor()
+        query = "SELECT * FROM pj WHERE id=%s"
+        myCursor.execute(query, (id,))
+        result = myCursor.fetchall()
+        
+        #Cerrar conexion
+        myCursor.close()
+        connection.close()
+        return render_template('listo.html', results= result[0])
+
+
+@app.route('/actualizar/<string:id>', methods=['POST'])
+def actualizar(id):
     if request.method == 'POST':
-        id = request.form.get('id') 
-        nombre = request.form.get('nombre')
-        edad = request.form.get('edad')
-        pelo = request.form.get('pelo')
-        raza = request.form.get('raza')
-        genero = request.form.get('genero')
-        color = request.form.get('color')
+        nombre = request.form['nombre']
+        edad = request.form['edad']
+        ropa = request.form['ropa']
+        pelo = request.form['pelo']
+        raza = request.form['raza']
+        genero = request.form['genero']
+        color = request.form['color']
+
+        connection = get_db_connection()
+        myCursor = connection.cursor()
+        query = """
+            UPDATE pj SET nombre=%s, edad=%s, ropa=%s, pelo=%s, raza=%s, genero=%s, color=%s 
+            WHERE id=%s
+        """
+        values = (nombre, edad, ropa, pelo, raza, genero, color, id)
+        myCursor.execute(query, values)
+        connection.commit()
         
-        if not id:
-            mensajes="ID no proporcionado."
-            return mensajes
+        #Cerrar conexion
+        myCursor.close()
+        connection.close()
         
-        try:
-            connection = get_db_connection()
-            myCursor = connection.cursor()
-            query = """
-                UPDATE pj 
-                SET nombre = %s, edad = %s, pelo = %s, raza = %s, genero = %s, color = %s
-                WHERE id = %s
-            """
-            valores = (nombre, edad, pelo, raza, genero, color, id)
-            myCursor.execute(query, valores)
-            connection.commit()
-            myCursor.close()
-            connection.close()
-            mensaje = "Registro actualizado exitosamente."
-        except Exception as e:
-            mensaje = f"Error al actualizar el registro: {e}"
+        flash('Contacto actualizado', 'success')
+        return redirect(url_for('editar'))
 
-        return render_template('listo.html', mensaje=mensaje)
-    return render_template('listo.html')
+@app.route('/eliminar/<string:id>',methods=['POST'])
+def eliminar(id):
+        connection = get_db_connection()
+        myCursor = connection.cursor()
+        query = "DELETE FROM pj WHERE id = %s"
+        myCursor.execute(query, (id,))
+        connection.commit()
 
-@app.route('/eliminar', methods=['GET', 'POST'])
-def eliminar():
-    if request.method == "POST":
-        id=request.form.get('id')
+        #Cerrar conexion
+        myCursor.close()
+        connection.close()
 
-    if not id:
-            mensajes="ID no proporcionado."
-            return mensajes
-    
-    try:
-            connection = get_db_connection()
-            myCursor = connection.cursor()
-            query = """
-                DELETE FROM pj
-                WHERE id = %s
-            """
-            myCursor.execute(query, (id,))
-            connection.commit()
-            myCursor.close()
-            connection.close()
-            mensaje = "Registro eliminado"
-    except Exception as e:
-            mensaje = f"Error al eliminar el registro: {e}"
+        flash('Contacto eliminado exitosamente')
 
-    return render_template('editar.html', mensaje=mensaje)
+        return redirect(url_for('editar'))
 
 
 @app.route('/agregar', methods=['GET', 'POST'])
@@ -117,6 +118,7 @@ def agregar():
         color = request.form['color']
     return render_template('agregar.html')
 
+<<<<<<< HEAD
 
 def agregar():
     if request.method == 'POST':
@@ -147,6 +149,8 @@ def agregar():
         return redirect(url_for('listo'))
     return render_template('agregar.html')
 
+=======
+>>>>>>> 31ddebcdcb2f35b0c36b2d6a1b2afaff90e29028
 if __name__=="__main__":
     app.run(debug=True)
 
