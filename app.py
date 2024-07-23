@@ -118,9 +118,34 @@ def agregar():
     return render_template('agregar.html')
 
 
-@app.route('/agregar')
 def agregar():
-    return 'Agregar personaje'
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        edad = request.form['edad']
+        ropa = request.form['ropa']
+        pelo = request.form['pelo']
+        raza = request.form['raza']
+        genero = request.form['genero']
+        color = request.form['color']
+
+        # Imprimir los valores recibidos para depuración
+        print(f"Nombre: {nombre}, Edad: {edad}, Ropa: {ropa}, Pelo: {pelo}, Raza: {raza}, Género: {genero}, Color: {color}")
+
+        db = get_db_connection()
+        cursor = db.cursor()
+        try:
+            cursor.execute("INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                           (nombre, edad, ropa, pelo, raza, genero, color))
+            db.commit()
+            print("Datos insertados correctamente")
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+            db.rollback()
+        finally:
+            cursor.close()
+            db.close()
+        return redirect(url_for('listo'))
+    return render_template('agregar.html')
 
 if __name__=="__main__":
     app.run(debug=True)
