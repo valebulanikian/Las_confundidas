@@ -1,16 +1,23 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Actualizar Registro</title>
 </head>
 <body>
-    <script>
-        //Avisa que está enviado el formu
-        window.alert("Listo!")
-
-        //Vuelve a la pagina anterior
-        window.history.back();
-    </script>    
+    <h2>Aquí puede actualizar los datos del registro:</h2>
+    <form action="{{ url_for('actualizar', id=results[0]) }}" method="POST" id="myForm">
+        <input type="hidden" name="id" id="formId" value="{{ results[0] }}">
+        <br>
+        <input type="text" name="nombre" value="{{ results[1] }}"> <br> <br>
+        <input type="text" name="edad" value="{{ results[2] }}"> <br> <br>
+        <input type="text" name="ropa" value="{{ results[3] }}"> <br> <br>
+        <input type="text" name="pelo" value="{{ results[4] }}"> <br> <br>
+        <input type="text" name="raza" value="{{ results[5] }}"> <br> <br>
+        <input type="text" name="genero" value="{{ results[6] }}"> <br> <br>
+        <input type="text" name="color" value="{{ results[7] }}">
+        <button type="submit" id="btnActualizar">Actualizar</button>        
+    </form>
 </body>
 </html>

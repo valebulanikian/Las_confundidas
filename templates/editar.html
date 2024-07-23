@@ -4,85 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados de la Consulta</title>
+    
 </head>
 <body>
-    <h1>Resultados de la Consulta</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Edad</th>
-                <th>Pelo</th>
-                <th>Raza</th>
-                <th>Genero</th>
-                <th>Color</th>
-                <th>Acciones</th>      
-            </tr>
-        </thead>
+    <body>
+        <h1>Resultados de la Consulta</h1>
+    
+        <!-- Mostrar mensajes flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+            {% endif %}
+        {% endwith %}
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>Ropa</th>
+                    <th>Pelo</th>
+                    <th>Raza</th>
+                    <th>Genero</th>
+                    <th>Color</th>
+                    <th>Acciones</th>      
+                </tr>
+            </thead>
+        
         <tbody>
-            {% for row in results %}
+            {% for result in results %}
             <tr>
-                <td>{{ row[0] }}</td> 
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td>{{ row[5] }}</td>
-                <td>{{ row[6] }}</td>
-                <td><button class="btnActualizar" data-id="{{ row[0] }}">Actualizar</button></td>
-
-                <td><form action="/eliminar" method="POST" style="display:inline;">
-                    <input type="hidden" name="id" value="{{ row[0] }}">
-                    <button type="submit" class="btnEliminar">Eliminar</button>
-                </form>
+                <td>{{ result[0] }}</td> 
+                <td>{{ result[1] }}</td> 
+                <td>{{ result[2] }}</td>
+                <td>{{ result[3] }}</td>
+                <td>{{ result[4] }}</td>
+                <td>{{ result[5] }}</td>
+                <td>{{ result[6] }}</td>
+                <td>{{ result[7] }}</td>
+                <td>
+                    <form action="{{ url_for('listo', id=result[0]) }}" method="POST" style="display:inline;">
+                        <button type="submit" id="btnActualizar">Editar</button>
+                    </form></td>
+                <td>
+                    <form action="{{ url_for('eliminar', id=result[0]) }}" method="POST" style="display:inline;">
+                        <button type="submit" id="btnEliminar" name="=btnEliminar">Eliminar</button>
+                    </form>
                 </td>
 
             </tr>
             {% endfor %}
         </tbody>
-    </table>
-    <form action="/listo" method="POST" id="myForm" style="display: none;">
-        <input type="hidden" name="id" id="formId">
-        <br>
-        <input type="text" name="nombre" placeholder="Nombre"> <br> <br>
-        <input type="text" name="edad" placeholder="Joven, adulto, niño"> <br> <br>
-        <input type="text" name="pelo" placeholder="Rubio, negro, sin pelo"> <br> <br>
-        <input type="text" name="raza" placeholder="Humano, no humano, animal"> <br> <br>
-        <input type="text" name="genero" placeholder="Mujer/hombre"> <br> <br>
-        <input type="text" name="color" placeholder="Color que identifica a tu personaje">
-        <button type="submit">Listo</button>        
-    </form>
+
+
     <a href="http://127.0.0.1:5000/"><h1>Volver al inicio</h1></a>
-
-
     
+
+    <!--JAVASCRIPT CONTENIDO -->
     <script>
-    document.querySelectorAll('.btnEliminar').forEach(button => {
-    button.addEventListener('click', function(event) {
-        const userResponse = confirm("¿Estás seguro de que deseas eliminar este registro?");
-        if (!userResponse) {
-            event.preventDefault(); // Cancela la acción si el usuario no confirma
-        }
-    });
-    });
-
-
-    document.querySelectorAll('.btnActualizar').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.getAttribute('data-id');
-            document.getElementById('formId').value = id;
-
-            const form = document.getElementById('myForm');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-                this.textContent = 'Cancelar';
-            } else {
-                form.style.display = 'none';
-                this.textContent = 'Actualizar';
-            }
+        document.querySelectorAll('.btnEliminar').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const userResponse = confirm("¿Estás seguro de que deseas eliminar este personaje?");
+                if (!userResponse) {
+                    event.preventDefault(); 
+                }
+            });
         });
-    });
-    </script>
+       </script>
+        
+    <!--<script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>-->
 </body>
 </html>
