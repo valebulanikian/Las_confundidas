@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunta</title>
+</head>
+<body>
+    <h1>{{ pregunta[1] }}</h1>
+
+    <form action="/jugar" method="POST">
+        <input type="hidden" name="pregunta_id" value="{{ pregunta[0] }}">
+        <button type="submit" name="respuesta" value="Si">Sí</button>
+        <button type="submit" name="respuesta" value="No">No</button>
+    </form>
+</body>
+</html>

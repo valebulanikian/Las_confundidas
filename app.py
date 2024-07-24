@@ -116,22 +116,6 @@ def agregar():
         raza = request.form['raza']
         genero = request.form['genero']
         color = request.form['color']
-    return render_template('agregar.html')
-
-<<<<<<< HEAD
-
-def agregar():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        edad = request.form['edad']
-        ropa = request.form['ropa']
-        pelo = request.form['pelo']
-        raza = request.form['raza']
-        genero = request.form['genero']
-        color = request.form['color']
-
-        # Imprimir los valores recibidos para depuración
-        print(f"Nombre: {nombre}, Edad: {edad}, Ropa: {ropa}, Pelo: {pelo}, Raza: {raza}, Género: {genero}, Color: {color}")
 
         db = get_db_connection()
         cursor = db.cursor()
@@ -139,18 +123,20 @@ def agregar():
             cursor.execute("INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                            (nombre, edad, ropa, pelo, raza, genero, color))
             db.commit()
-            print("Datos insertados correctamente")
+
+            flash('personaje agregado correctamente')
+
         except mysql.connector.Error as err:
             print(f"Error: {err}")
             db.rollback()
+
         finally:
             cursor.close()
             db.close()
-        return redirect(url_for('listo'))
+
+        return redirect(url_for('editar'))
     return render_template('agregar.html')
 
-=======
->>>>>>> 31ddebcdcb2f35b0c36b2d6a1b2afaff90e29028
 if __name__=="__main__":
     app.run(debug=True)
 
