@@ -4,6 +4,7 @@ import mysql.connector
 app=Flask(__name__)
 app.secret_key= 'mysecretkey'
 
+
 @app.route('/') #Decorador, endpoint
 
 def home():
@@ -32,6 +33,7 @@ def lista():
     connection.close()
 
     return render_template('personajes.html', results=result)
+    pass
 
 @app.route('/editar')
 def editar():
