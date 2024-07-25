@@ -33,7 +33,6 @@ def lista():
     connection.close()
 
     return render_template('personajes.html', results=result)
-    pass
 
 @app.route('/editar')
 def editar():
