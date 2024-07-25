@@ -1,23 +1,20 @@
 from flask import Flask, flash, jsonify, redirect, request, render_template, url_for # type: ignore
 import mysql.connector
+import os
 
-app=Flask(__name__)
-app.secret_key= 'mysecretkey'
+app = Flask(__name__)
+app.secret_key = 'mysecretkey'
 
-
-@app.route('/') #Decorador, endpoint
-
+@app.route('/')
 def home():
     return render_template('index.html')
 
-#MYSQL CONEXION
 def get_db_connection():
     connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="personajes_test"
-
+        host=os.environ.get('DATABASE_HOST', 'localhost'),
+        user=os.environ.get('DATABASE_USER', 'root'),
+        password=os.environ.get('DATABASE_PASSWORD', ''),
+        database=os.environ.get('DATABASE_NAME', 'personajes_test')
     )
     return connection
 
@@ -42,25 +39,21 @@ def editar():
     myCursor.execute(query)
     result = myCursor.fetchall()
     
-    #Cerrar conexion
     myCursor.close()
     connection.close()
     return render_template('editar.html', results=result)
 
-
 @app.route('/listo/<string:id>', methods=['POST','GET'])
 def listo(id):
-        connection = get_db_connection()
-        myCursor = connection.cursor()
-        query = "SELECT * FROM pj WHERE id=%s"
-        myCursor.execute(query, (id,))
-        result = myCursor.fetchall()
+    connection = get_db_connection()
+    myCursor = connection.cursor()
+    query = "SELECT * FROM pj WHERE id=%s"
+    myCursor.execute(query, (id,))
+    result = myCursor.fetchall()
         
-        #Cerrar conexion
-        myCursor.close()
-        connection.close()
-        return render_template('listo.html', results= result[0])
-
+    myCursor.close()
+    connection.close()
+    return render_template('listo.html', results= result[0])
 
 @app.route('/actualizar/<string:id>', methods=['POST'])
 def actualizar(id):
@@ -83,7 +76,6 @@ def actualizar(id):
         myCursor.execute(query, values)
         connection.commit()
         
-        #Cerrar conexion
         myCursor.close()
         connection.close()
         
@@ -92,20 +84,18 @@ def actualizar(id):
 
 @app.route('/eliminar/<string:id>',methods=['POST'])
 def eliminar(id):
-        connection = get_db_connection()
-        myCursor = connection.cursor()
-        query = "DELETE FROM pj WHERE id = %s"
-        myCursor.execute(query, (id,))
-        connection.commit()
+    connection = get_db_connection()
+    myCursor = connection.cursor()
+    query = "DELETE FROM pj WHERE id = %s"
+    myCursor.execute(query, (id,))
+    connection.commit()
 
-        #Cerrar conexion
-        myCursor.close()
-        connection.close()
+    myCursor.close()
+    connection.close()
 
-        flash('Contacto eliminado exitosamente')
+    flash('Contacto eliminado exitosamente')
 
-        return redirect(url_for('editar'))
-
+    return redirect(url_for('editar'))
 
 @app.route('/agregar', methods=['GET', 'POST'])
 def agregar():
@@ -138,11 +128,8 @@ def agregar():
         return redirect(url_for('editar'))
     return render_template('agregar.html')
 
-if __name__=="__main__":
-    app.run(debug=True)
-
-
-
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')
 
 
 
