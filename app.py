@@ -6,25 +6,21 @@ import os
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
 
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
+# Configuración de la conexión a la base de datos
 def get_db_connection():
     db_config = {
         'host': 'db',
         'user': 'mysql',
-        'password': 1234,
+        'password': '1234',
         'database': 'personajes_test',
         'port': 3306
     }
-    connection = connector.connect(
-                user='mysql', 
-                password=1234,
-                host='db', # name of the mysql service as set in the docker compose file
-                database='personajes_test',
-                auth_plugin='mysql_native_password')
+    connection = connector.connect(**db_config)
+    return connection
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/personajes')
 def lista():
@@ -51,17 +47,17 @@ def editar():
     connection.close()
     return render_template('editar.html', results=result)
 
-@app.route('/listo/<string:id>', methods=['POST','GET'])
+@app.route('/listo/<string:id>', methods=['POST', 'GET'])
 def listo(id):
     connection = get_db_connection()
     myCursor = connection.cursor()
     query = "SELECT * FROM pj WHERE id=%s"
     myCursor.execute(query, (id,))
     result = myCursor.fetchall()
-        
+    
     myCursor.close()
     connection.close()
-    return render_template('listo.html', results= result[0])
+    return render_template('listo.html', results=result[0])
 
 @app.route('/actualizar/<string:id>', methods=['POST'])
 def actualizar(id):
@@ -90,7 +86,7 @@ def actualizar(id):
         flash('Contacto actualizado', 'success')
         return redirect(url_for('editar'))
 
-@app.route('/eliminar/<string:id>',methods=['POST'])
+@app.route('/eliminar/<string:id>', methods=['POST'])
 def eliminar(id):
     connection = get_db_connection()
     myCursor = connection.cursor()
@@ -102,7 +98,6 @@ def eliminar(id):
     connection.close()
 
     flash('Contacto eliminado exitosamente')
-
     return redirect(url_for('editar'))
 
 @app.route('/agregar', methods=['GET', 'POST'])
@@ -116,41 +111,31 @@ def agregar():
         genero = request.form['genero']
         color = request.form['color']
 
-        db = get_db_connection()
-        cursor = db.cursor()
+        connection = get_db_connection()
+        cursor = connection.cursor()
         try:
             cursor.execute("INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                            (nombre, edad, ropa, pelo, raza, genero, color))
-            db.commit()
+            connection.commit()
 
-            flash('personaje agregado correctamente')
+            flash('Personaje agregado correctamente')
 
-        except mysql.connector.Error as err:
+        except connector.Error as err:
             print(f"Error: {err}")
-            db.rollback()
+            connection.rollback()
 
         finally:
             cursor.close()
-            db.close()
+            connection.close()
 
         return redirect(url_for('editar'))
     return render_template('agregar.html')
 
-<<<<<<< Updated upstream
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
-=======
-
-
-#
-# MODULO JUGAR
-#
-
-
+# Módulo Jugar
 preguntas = [
     {"atributo": "edad", "pregunta": "¿En qué rango de edad se encuentra tu personaje?", "opciones": ["niño", "joven", "adulto"]},
     {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno"]},
-    {"atributo": "humano", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": "humano", "no": "no humano"},
+    {"atributo": "raza", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": "humano", "no": "no humano"},
     {"atributo": "genero", "pregunta": "¿Tu personaje es mujer?", "opciones": ["Sí", "No"], "sí": "mujer", "no": "hombre"},
     {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta"]}
 ]
@@ -169,24 +154,18 @@ def responder():
     pregunta = preguntas[pregunta_actual]
     atributo = pregunta["atributo"]
 
-    # Obtener el valor esperado para comparar
     if "opciones" in pregunta:
         valor_esperado = respuesta
 
     if session.get('candidatos') is None:
-
-        # Primera pregunta y obtener todos los personajes
-        conexion = get_db_connection
+        conexion = get_db_connection()
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM pj")
         session['candidatos'] = cursor.fetchall()
-
-        # Guardar los nombres 
         session['nombres_columnas'] = [desc[0] for desc in cursor.description]
         cursor.close()
         conexion.close()
 
-    # Obtener el índice de la columna según el atributo
     indices_columnas = {desc: index for index, desc in enumerate(session['nombres_columnas'])}
 
     if atributo not in indices_columnas:
@@ -194,40 +173,28 @@ def responder():
 
     indice_atributo = indices_columnas[atributo]
 
-    # Filtrar los personajes según la respuesta
     nuevos_candidatos = [
         personaje for personaje in session['candidatos']
-        if (atributo == 'humano' and personaje[indice_atributo] == valor_esperado) or
-           (atributo != 'humano' and personaje[indice_atributo] == valor_esperado)
+        if personaje[indice_atributo] == valor_esperado
     ]
 
     session['candidatos'] = nuevos_candidatos
 
     if len(nuevos_candidatos) == 1:
-        # Encontramos el personaje
-        return render_template('jugar.html', resultado=nuevos_candidatos[0][session['nombres_columnas'].index('nombre')])  # Asumiendo que 'nombre' está en una columna específica
+        return render_template('jugar.html', resultado=nuevos_candidatos[0][session['nombres_columnas'].index('nombre')])
     
     elif len(nuevos_candidatos) == 0 or pregunta_actual + 1 >= len(preguntas):
-        # No hay coincidencias o no hay más preguntas
         return render_template('jugar.html', resultado="No se pudo determinar el personaje")
     
     else:
-        # Continuar con la siguiente pregunta
         session['pregunta_actual'] += 1
         siguiente_pregunta = preguntas[session['pregunta_actual']]["pregunta"]
         siguientes_opciones = preguntas[session['pregunta_actual']].get("opciones")
         return render_template('jugar.html', pregunta=siguiente_pregunta, opciones=siguientes_opciones)
 
-if __name__=="__main__":
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')
 
-
-
-
-
-
-
->>>>>>> Stashed changes
 
 '''@app.route('/personajes', methods=['GET', 'POST'])
 def pj():

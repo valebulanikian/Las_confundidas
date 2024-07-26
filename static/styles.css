@@ -20,7 +20,8 @@ header {
 }
 
 .header-img {
-    width: 100vw; /* Ocupa todo el ancho de la pantalla */
+    /*width: 100vw; /* Ocupa todo el ancho de la pantalla */
+    width: 70vw;
     height: auto;
     display: block;
 }
