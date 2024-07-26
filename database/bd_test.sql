@@ -1,32 +1,20 @@
-/* -- CREAR BASE DE DATOS
-create database personajes_test;
-*/
--- USAR BASE DE DATOS
-use personajes_test;
+-- CREAR BASE DE DATOS
+CREATE DATABASE IF NOT EXISTS personajes_test;
 
+-- USAR BASE DE DATOS
+USE personajes_test;
 
 -- CREAR TABLA DE PERSONAJES
-CREATE TABLE personajes_test.pj (
-    id INT NOT NULL AUTO_INCREMENT,
-    ropa VARCHAR(45),
-    pelo VARCHAR(45),
-    raza VARCHAR(45),
-    PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS pj (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    edad VARCHAR(20),
+    ropa VARCHAR(255),
+    pelo VARCHAR(255),
+    raza VARCHAR(255),
+    genero VARCHAR(10),
+    color VARCHAR(20)
 );
-
--- MODIFICAR COSAS DE LA TABLA
-alter table pj
-add column edad varchar(20),
-add column genero varchar(10), 
-add column nombre varchar(20);
-
-alter table pj
-add column color varchar (20);
-
-alter table pj
-modify column nombre varchar(20) after id,
-modify column edad varchar(20) after nombre;
-
 
 -- INSERTAR DATOS EN LA TABLA
 INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES
@@ -40,35 +28,31 @@ INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES
 ('Peter Pan', 'joven', 'pantalones verdes', 'rubio', 'humana', 'hombre', 'verde'),
 ('Pinocho', 'niño', 'pantalones cortos de madera', 'negro', 'muñeco de madera', 'hombre', 'azul'),
 ('Hércules', 'adulto', 'túnica roja', 'negro', 'semidios', 'hombre', 'rojo'),
-('Pato Donald ', 'adulto', 'chaqueta azul', 'ninguno', 'pato', 'hombre', 'azul'),
+('Pato Donald', 'adulto', 'chaqueta azul', 'ninguno', 'pato', 'hombre', 'azul'),
 ('Goofy', 'adulto', 'chaleco naranja', 'negro', 'perro', 'hombre', 'naranja'),
 ('Minnie Mouse', 'adulto', 'vestido rojo', 'negro', 'ratón', 'mujer', 'rojo'),
 ('Pluto', 'adulto', 'ninguna', 'amarillo', 'perro', 'hombre', 'amarillo'),
-('Daisy ', 'adulto', 'vestido morado', 'ninguno', 'pato', 'mujer', 'violeta');
+('Daisy', 'adulto', 'vestido morado', 'ninguno', 'pato', 'mujer', 'violeta');
 
-SELECT * FROM personajes_test.pj;
+-- SELECCIONAR TODOS LOS DATOS DE LA TABLA DE PERSONAJES
+SELECT * FROM pj;
 
--- USAR MISMA BASE DE DATOS
-use personajes_test;
-
--- CREAR TABLA
-create table preguntas(
-	id int auto_increment primary key,
-    pregunta varchar(200)
+-- CREAR TABLA DE PREGUNTAS
+CREATE TABLE IF NOT EXISTS preguntas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pregunta VARCHAR(200)
 );
 
--- INSERTAR DATOS
-insert into preguntas (pregunta)
-values ('¿En qué rango de edad se encuentra tu personaje?'), 
-		('¿Qué tipo de ropa usa?'), 
-        ('¿Es de raza humana?'),
-        ('¿Es una mujer?'),
-        ('¿Qué color representa mejor a tu personaje?');
+-- INSERTAR DATOS EN LA TABLA DE PREGUNTAS
+INSERT INTO preguntas (pregunta) VALUES 
+('¿En qué rango de edad se encuentra tu personaje?'), 
+('¿Qué tipo de ropa usa?'), 
+('¿Es de raza humana?'),
+('¿Es una mujer?'),
+('¿Qué color representa mejor a tu personaje?');
 
--- MOSTRAR DATOS
-select * from preguntas;
+-- SELECCIONAR TODOS LOS DATOS DE LA TABLA DE PREGUNTAS
+SELECT * FROM preguntas;
 
--- select ropa, pregunta from pj, preguntas where preguntas.id=2 group by ropa;
-
-
-
+-- EJEMPLO DE CONSULTA CON JOIN (SI ES NECESARIO)
+-- SELECT pj.ropa, preguntas.pregunta FROM pj, preguntas WHERE preguntas.id = 2 GROUP BY pj.ropa;

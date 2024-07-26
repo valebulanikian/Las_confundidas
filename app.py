@@ -1,9 +1,25 @@
-from flask import Flask, flash, jsonify, redirect, request, render_template, url_for # type: ignore
+from flask import Flask, flash, jsonify, redirect, request, render_template, url_for
 import mysql.connector
 import os
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
+
+DATABASE_HOST = os.getenv('DATABASE_HOST', 'mysql')
+DATABASE_USER = os.getenv('DATABASE_USER', 'root')
+DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD', '1234')
+DATABASE_NAME = os.getenv('DATABASE_NAME', 'mibasededatos')
+DATABASE_PORT = os.getenv('DATABASE_PORT', 3308)  # Asegúrate de usar el puerto correcto
+
+db_config = {
+    'host': DATABASE_HOST,
+    'user': DATABASE_USER,
+    'password': DATABASE_PASSWORD,
+    'database': DATABASE_NAME,
+    'port': DATABASE_PORT
+}
+
+connection = mysql.connector.connect(**db_config)
 
 @app.route('/')
 def home():
@@ -130,10 +146,6 @@ def agregar():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
-
-
-
-
 
 '''@app.route('/personajes', methods=['GET', 'POST'])
 def pj():
