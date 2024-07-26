@@ -1,38 +1,29 @@
 from flask import Flask, flash, jsonify, redirect, request, render_template, url_for
-import mysql.connector
+import mysql.connector as connector
 import os
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
 
-DATABASE_HOST = os.getenv('DATABASE_HOST', 'mysql')
-DATABASE_USER = os.getenv('DATABASE_USER', 'root')
-DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD', '1234')
-DATABASE_NAME = os.getenv('DATABASE_NAME', 'mibasededatos')
-DATABASE_PORT = os.getenv('DATABASE_PORT', 3308)  # Asegúrate de usar el puerto correcto
-
-db_config = {
-    'host': DATABASE_HOST,
-    'user': DATABASE_USER,
-    'password': DATABASE_PASSWORD,
-    'database': DATABASE_NAME,
-    'port': DATABASE_PORT
-}
-
-connection = mysql.connector.connect(**db_config)
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host=os.environ.get('DATABASE_HOST', 'localhost'),
-        user=os.environ.get('DATABASE_USER', 'root'),
-        password=os.environ.get('DATABASE_PASSWORD', ''),
-        database=os.environ.get('DATABASE_NAME', 'personajes_test')
-    )
-    return connection
+    db_config = {
+        'host': 'db',
+        'user': 'mysql',
+        'password': 1234,
+        'database': 'personajes_test',
+        'port': 3306
+    }
+    connection = connector.connect(
+                user='mysql', 
+                password=1234,
+                host='db', # name of the mysql service as set in the docker compose file
+                database='personajes_test',
+                auth_plugin='mysql_native_password')
 
 @app.route('/personajes')
 def lista():
