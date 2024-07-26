@@ -1,11 +1,7 @@
-<<<<<<< Updated upstream
-from flask import Flask, flash, jsonify, redirect, request, render_template, url_for
+
+from flask import Flask, flash, jsonify, redirect, request, render_template, url_for, session
 import mysql.connector as connector
 import os
-=======
-from flask import Flask, flash, jsonify, redirect, request, render_template, url_for, session # type: ignore
-import mysql.connector
->>>>>>> Stashed changes
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -154,7 +150,7 @@ if __name__ == "__main__":
 preguntas = [
     {"atributo": "edad", "pregunta": "¿En qué rango de edad se encuentra tu personaje?", "opciones": ["niño", "joven", "adulto"]},
     {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno"]},
-    {"atributo": "humano", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": True, "no": False},
+    {"atributo": "humano", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": "humano", "no": "no humano"},
     {"atributo": "genero", "pregunta": "¿Tu personaje es mujer?", "opciones": ["Sí", "No"], "sí": "mujer", "no": "hombre"},
     {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta"]}
 ]
@@ -176,18 +172,16 @@ def responder():
     # Obtener el valor esperado para comparar
     if "opciones" in pregunta:
         valor_esperado = respuesta
-    else:
-        # Convertir la respuesta a un valor booleano si es necesario
-        valor_esperado = pregunta["sí"] if respuesta == 'Sí' else pregunta["no"]
 
     if session.get('candidatos') is None:
-        # Primera pregunta, obtener todos los personajes
+
+        # Primera pregunta y obtener todos los personajes
         conexion = get_db_connection
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM pj")
         session['candidatos'] = cursor.fetchall()
 
-        # Guardar los nombres de las columnas
+        # Guardar los nombres 
         session['nombres_columnas'] = [desc[0] for desc in cursor.description]
         cursor.close()
         conexion.close()
