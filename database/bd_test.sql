@@ -18,21 +18,21 @@ CREATE TABLE IF NOT EXISTS pj (
 
 -- INSERTAR DATOS EN LA TABLA
 INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES
-('Cenicienta', 'joven', 'vestido', 'rubia', 'humana', 'mujer', 'celeste'),
-('Ariel', 'joven', 'vestido', 'rojo', 'no humana', 'mujer', 'rosa'),
-('Mickey Mouse', 'adulto', 'pantalones rojos', 'negro', 'ratón', 'hombre', 'rojo'),
-('Elsa', 'adulto', 'vestido azul', 'rubia', 'humana', 'mujer', 'azul'),
-('Simba', 'joven', 'ninguna', 'dorado', 'león', 'hombre', 'amarillo'),
-('Blancanieves', 'joven', 'vestido azul', 'negro', 'humana', 'mujer', 'amarillo'),
-('Aladdin', 'joven', 'chaleco rojo', 'negro', 'humana', 'hombre', 'marrón'),
-('Peter Pan', 'joven', 'pantalones verdes', 'rubio', 'humana', 'hombre', 'verde'),
-('Pinocho', 'niño', 'pantalones cortos de madera', 'negro', 'muñeco de madera', 'hombre', 'azul'),
-('Hércules', 'adulto', 'túnica roja', 'negro', 'semidios', 'hombre', 'rojo'),
-('Pato Donald', 'adulto', 'chaqueta azul', 'ninguno', 'pato', 'hombre', 'azul'),
-('Goofy', 'adulto', 'chaleco naranja', 'negro', 'perro', 'hombre', 'naranja'),
-('Minnie Mouse', 'adulto', 'vestido rojo', 'negro', 'ratón', 'mujer', 'rojo'),
-('Pluto', 'adulto', 'ninguna', 'amarillo', 'perro', 'hombre', 'amarillo'),
-('Daisy', 'adulto', 'vestido morado', 'ninguno', 'pato', 'mujer', 'violeta');
+('Cenicienta', 'joven', 'vestido', 'rubio', 'humano', 'mujer', 'celeste'),
+('Ariel', 'joven', 'vestido', 'rojo', 'no humano', 'mujer', 'rosa'),
+('Mickey Mouse', 'adulto', 'pantalones', 'negro', 'no humano', 'hombre', 'rojo'),
+('Elsa', 'adulto', 'vestido', 'rubio', 'humano', 'mujer', 'azul'),
+('Simba', 'joven', 'ninguna', 'rubio', 'no humano', 'hombre', 'amarillo'),
+('Blancanieves', 'joven', 'vestido', 'negro', 'humano', 'mujer', 'amarillo'),
+('Aladdin', 'joven', 'chaleco', 'negro', 'humano', 'hombre', 'marrón'),
+('Peter Pan', 'joven', 'pantalones', 'rubio', 'humano', 'hombre', 'verde'),
+('Pinocho', 'niño', 'pantalones', 'negro', 'no humano', 'hombre', 'azul'),
+('Hércules', 'adulto', 'túnica roja', 'negro', 'no humano', 'hombre', 'rojo'),
+('Pato Donald', 'adulto', 'chaleco', 'ninguno', 'no humano', 'hombre', 'azul'),
+('Goofy', 'adulto', 'chaleco', 'negro', 'no humano', 'hombre', 'naranja'),
+('Minnie Mouse', 'adulto', 'vestido', 'negro', 'no humano', 'mujer', 'rojo'),
+('Pluto', 'adulto', 'ninguna', 'amarillo', 'no humano', 'hombre', 'amarillo'),
+('Daisy', 'adulto', 'vestido', 'ninguno', 'no humano', 'mujer', 'violeta');
 
 -- SELECCIONAR TODOS LOS DATOS DE LA TABLA DE PERSONAJES
 SELECT * FROM pj;
