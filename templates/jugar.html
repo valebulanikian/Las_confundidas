@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pregunta</title>
+    <title>Juego de Personajes Disney</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>{{ pregunta[1] }}</h1>
-
-    <form action="/jugar" method="POST">
-        <input type="hidden" name="pregunta_id" value="{{ pregunta[0] }}">
-        <button type="submit" name="respuesta" value="Si">Sí</button>
-        <button type="submit" name="respuesta" value="No">No</button>
-    </form>
+    <div class="container">
+        {% if question %}
+            <h1>{{ question }}</h1>
+            <form method="POST" action="{{ url_for('answer') }}">
+                {% if options %}
+                    {% for option in options %}
+                        <button type="submit" name="answer" value="{{ option }}">{{ option }}</button>
+                    {% endfor %}
+                {% else %}
+                    <button type="submit" name="answer" value="Sí">Sí</button>
+                    <button type="submit" name="answer" value="No">No</button>
+                {% endif %}
+            </form>
+        {% elif result %}
+            <h1>¡Tu personaje es {{ result }}!</h1>
+            <a href="{{ url_for('inicio_jugar') }}">Jugar de nuevo</a>
+        {% endif %}
+    </div>
 </body>
 </html>
+

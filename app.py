@@ -1,6 +1,11 @@
+<<<<<<< Updated upstream
 from flask import Flask, flash, jsonify, redirect, request, render_template, url_for
 import mysql.connector as connector
 import os
+=======
+from flask import Flask, flash, jsonify, redirect, request, render_template, url_for, session # type: ignore
+import mysql.connector
+>>>>>>> Stashed changes
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -135,8 +140,100 @@ def agregar():
         return redirect(url_for('editar'))
     return render_template('agregar.html')
 
+<<<<<<< Updated upstream
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
+=======
+
+
+#
+# MODULO JUGAR
+#
+
+
+preguntas = [
+    {"atributo": "edad", "pregunta": "¿En qué rango de edad se encuentra tu personaje?", "opciones": ["niño", "joven", "adulto"]},
+    {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno"]},
+    {"atributo": "humano", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": True, "no": False},
+    {"atributo": "genero", "pregunta": "¿Tu personaje es mujer?", "opciones": ["Sí", "No"], "sí": "mujer", "no": "hombre"},
+    {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta"]}
+]
+
+@app.route('/jugar')
+def iniciar_juego():
+    session.clear()
+    session['pregunta_actual'] = 0
+    session['candidatos'] = None
+    return render_template('jugar.html', pregunta=preguntas[0]["pregunta"], opciones=preguntas[0].get("opciones"))
+
+@app.route('/rta', methods=['POST'])
+def responder():
+    respuesta = request.form['answer']
+    pregunta_actual = session.get('pregunta_actual', 0)
+    pregunta = preguntas[pregunta_actual]
+    atributo = pregunta["atributo"]
+
+    # Obtener el valor esperado para comparar
+    if "opciones" in pregunta:
+        valor_esperado = respuesta
+    else:
+        # Convertir la respuesta a un valor booleano si es necesario
+        valor_esperado = pregunta["sí"] if respuesta == 'Sí' else pregunta["no"]
+
+    if session.get('candidatos') is None:
+        # Primera pregunta, obtener todos los personajes
+        conexion = get_db_connection
+        cursor = conexion.cursor()
+        cursor.execute("SELECT * FROM pj")
+        session['candidatos'] = cursor.fetchall()
+
+        # Guardar los nombres de las columnas
+        session['nombres_columnas'] = [desc[0] for desc in cursor.description]
+        cursor.close()
+        conexion.close()
+
+    # Obtener el índice de la columna según el atributo
+    indices_columnas = {desc: index for index, desc in enumerate(session['nombres_columnas'])}
+
+    if atributo not in indices_columnas:
+        return render_template('jugar.html', resultado="Error: el atributo no se encuentra en la base de datos")
+
+    indice_atributo = indices_columnas[atributo]
+
+    # Filtrar los personajes según la respuesta
+    nuevos_candidatos = [
+        personaje for personaje in session['candidatos']
+        if (atributo == 'humano' and personaje[indice_atributo] == valor_esperado) or
+           (atributo != 'humano' and personaje[indice_atributo] == valor_esperado)
+    ]
+
+    session['candidatos'] = nuevos_candidatos
+
+    if len(nuevos_candidatos) == 1:
+        # Encontramos el personaje
+        return render_template('jugar.html', resultado=nuevos_candidatos[0][session['nombres_columnas'].index('nombre')])  # Asumiendo que 'nombre' está en una columna específica
+    
+    elif len(nuevos_candidatos) == 0 or pregunta_actual + 1 >= len(preguntas):
+        # No hay coincidencias o no hay más preguntas
+        return render_template('jugar.html', resultado="No se pudo determinar el personaje")
+    
+    else:
+        # Continuar con la siguiente pregunta
+        session['pregunta_actual'] += 1
+        siguiente_pregunta = preguntas[session['pregunta_actual']]["pregunta"]
+        siguientes_opciones = preguntas[session['pregunta_actual']].get("opciones")
+        return render_template('jugar.html', pregunta=siguiente_pregunta, opciones=siguientes_opciones)
+
+if __name__=="__main__":
+    app.run(debug=True)
+
+
+
+
+
+
+
+>>>>>>> Stashed changes
 
 '''@app.route('/personajes', methods=['GET', 'POST'])
 def pj():
