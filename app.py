@@ -6,12 +6,32 @@ import os
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
 
-# Configuración de la conexión a la base de datos
+#ATENCION!! <------
+#esta es TU CONEXION CON LA BBDD VALE
+#Descomentá esto cuando lo vayas a usar, y comenta mi configuracion de la BBDD
+
+"""
+# Configuración de la conexión a la base de datos DE VALE
 def get_db_connection():
     db_config = {
         'host': 'db',
         'user': 'mysql',
         'password': '1234',
+        'database': 'personajes_test',
+        'port': 3306
+    }
+    connection = connector.connect(**db_config)
+    return connection
+"""
+
+ip = '192.168.99.100'
+
+# Configuración de la conexión a la base de datos DE LARA
+def get_db_connection():
+    db_config = {
+        'host': ip,
+        'user': 'root',
+        'password': 'mi_contraseña',
         'database': 'personajes_test',
         'port': 3306
     }
@@ -145,7 +165,7 @@ def iniciar_juego():
     session.clear()
     session['pregunta_actual'] = 0
     session['candidatos'] = None
-    return render_template('jugar.html', pregunta=preguntas[0]["pregunta"], opciones=preguntas[0].get("opciones"))
+    return render_template('jugar.html', question=preguntas[0]["pregunta"], options=preguntas[0].get("opciones"))
 
 @app.route('/rta', methods=['POST'])
 def responder():
@@ -154,8 +174,7 @@ def responder():
     pregunta = preguntas[pregunta_actual]
     atributo = pregunta["atributo"]
 
-    if "opciones" in pregunta:
-        valor_esperado = respuesta
+    valor_esperado = respuesta
 
     if session.get('candidatos') is None:
         conexion = get_db_connection()
@@ -167,10 +186,6 @@ def responder():
         conexion.close()
 
     indices_columnas = {desc: index for index, desc in enumerate(session['nombres_columnas'])}
-
-    if atributo not in indices_columnas:
-        return render_template('jugar.html', resultado="Error: el atributo no se encuentra en la base de datos")
-
     indice_atributo = indices_columnas[atributo]
 
     nuevos_candidatos = [
@@ -181,19 +196,22 @@ def responder():
     session['candidatos'] = nuevos_candidatos
 
     if len(nuevos_candidatos) == 1:
-        return render_template('jugar.html', resultado=nuevos_candidatos[0][session['nombres_columnas'].index('nombre')])
+        result = nuevos_candidatos[0][session['nombres_columnas'].index('nombre')]
+        return render_template('jugar.html', result=result)
     
     elif len(nuevos_candidatos) == 0 or pregunta_actual + 1 >= len(preguntas):
-        return render_template('jugar.html', resultado="No se pudo determinar el personaje")
+        return render_template('jugar.html', result="No se pudo determinar el personaje")
     
     else:
         session['pregunta_actual'] += 1
         siguiente_pregunta = preguntas[session['pregunta_actual']]["pregunta"]
         siguientes_opciones = preguntas[session['pregunta_actual']].get("opciones")
-        return render_template('jugar.html', pregunta=siguiente_pregunta, opciones=siguientes_opciones)
+        return render_template('jugar.html', question=siguiente_pregunta, options=siguientes_opciones)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
+
+
 
 
 '''@app.route('/personajes', methods=['GET', 'POST'])
