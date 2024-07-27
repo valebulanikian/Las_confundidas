@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de la Consulta</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='st.css') }}">
+    <title>Lista de Personajes</title>
 </head>
 <body>
-    <h1>Resultados de la Consulta</h1>
-    <table border="2">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Edad</th>
-                <th>Pelo</th>
-                <th>Raza</th>
-                <th>Genero</th>
-                <th>Color</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in results %}
-            <tr>
-                {% for cell in row %}
-                <td>{{ cell }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <h1  class="title">Lista de Personajes</h1>
+        <div class="book">
+            {% if results %}
 
-    <a href="http://127.0.0.1:5000/"><h1>Volver al inicio</h1></a>
+            <div class="page">
+                {% for attribute, value in results[0].items() %}
+                    <p><strong>{{ attribute }}:</strong> {{ value }}</p>
+                {% endfor %}
+            </div>
+
+            {% else %}
+                <p>No hay personajes disponibles.</p>
+            {% endif %}
+        </div>
+
+        <div class="pagination">
+            {% if page > 1 %}
+            <a href="{{ url_for('lista', page=page-1) }}">Anterior</a>
+            {% endif %}
+            {% if page < pages %}
+            <a href="{{ url_for('lista', page=page+1) }}">Siguiente</a>
+            {% endif %}
+        </div>
+        
+        <a href="{{ url_for('home') }}"><h1>Volver al inicio</h1></a>
+    </div>
 </body>
 </html>
+

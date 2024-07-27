@@ -6,39 +6,74 @@ import os
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
 
+#ATENCION!! <------
+#esta es TU CONEXION CON LA BBDD VALE
+#Descomentá esto cuando lo vayas a usar, y comenta mi configuracion de la BBDD
+
+"""
+# Configuración de la conexión a la base de datos DE VALE
+def get_db_connection():
+    db_config = {
+        'host': 'db',
+@@ -17,6 +22,21 @@ def get_db_connection():
+    }
+    connection = connector.connect(**db_config)
+    return connection
+"""
+
+
+# Configuración de la conexión a la base de datos DE LARA
+ip = '192.168.99.100'
+def get_db_connection():
+    db_config = {
+        'host': ip,
+        'user': 'root',
+        'password': 'mi_contraseña',
+        'database': 'personajes_test',
+        'port': 3306
+    }
+    connection = connector.connect(**db_config)
+    return connection
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-def get_db_connection():
-    db_config = {
-        'host': 'db',
-        'user': 'mysql',
-        'password': 1234,
-        'database': 'personajes_test',
-        'port': 3306
-    }
-    connection = connector.connect(
-                user='mysql', 
-                password=1234,
-                host='db', # name of the mysql service as set in the docker compose file
-                database='personajes_test',
-                auth_plugin='mysql_native_password')
-    return connection
-
 @app.route('/personajes')
 def lista():
+    page = int(request.args.get('page', 1))
+    per_page = 1  # Mostrar una página a la vez
+    offset = (page - 1) * per_page
+
     connection = get_db_connection()
     myCursor = connection.cursor()
-    query = "SELECT nombre, edad, pelo, raza, genero, color FROM pj"
-    myCursor.execute(query)
-    result = myCursor.fetchall()
-    
+
+    query = """
+    SELECT pj.nombre, pj.edad, pj.pelo, pj.raza, pj.genero, pj.color, cuentos.nomCuento, cuentos.sinopsis
+    FROM pj
+    JOIN cuentos ON cuentos.id = pj.id
+    LIMIT %s OFFSET %s;
+    """
+    myCursor.execute(query, (per_page, offset))
+    results = myCursor.fetchall()
+
+    # Obtener los nombres de las columnas
+    column_names = [desc[0] for desc in myCursor.description]
+
+    # Convertir los resultados a una lista de diccionarios
+    result_list = [dict(zip(column_names, row)) for row in results]
+
+    # Obtener el total de personajes para calcular el número de páginas
+    myCursor.execute("SELECT COUNT(*) FROM pj")
+    total = myCursor.fetchone()[0]
+    pages = (total + per_page - 1) // per_page
+
     myCursor.close()
     connection.close()
 
-    return render_template('personajes.html', results=result)
+    return render_template('personajes.html', results=result_list, page=page, pages=pages)
+
+
 
 @app.route('/editar')
 def editar():
@@ -193,10 +228,35 @@ def responder():
         siguiente_pregunta = preguntas[session['pregunta_actual']]["pregunta"]
         siguientes_opciones = preguntas[session['pregunta_actual']].get("opciones")
         return render_template('jugar.html', question=siguiente_pregunta, options=siguientes_opciones)
+    
+
+    #############################################################
+
+"""@app.route('/personajes')
+def pj():
+        page = int(request.args.get('page', 1))
+        per_page = 10
+        offset = (page - 1) * per_page
+
+        # Conectar a la base de datos
+        db = get_db_connection()
+        cursor = db.cursor()
+
+        cursor.execute('SELECT COUNT(*) FROM cuentos')
+        total = cursor.fetchone()[0]
+        pages = (total + per_page - 1) // per_page
+
+        cursor.execute('SELECT * FROM cuentos LIMIT %s OFFSET %s', (per_page, offset))
+        results = cursor.fetchall()
+
+        cursor.close()
+        db.close()
+
+        return render_template('personajes.html', results=results, previous_page=max(1, page - 1), next_page=min(pages, page + 1))"""
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
-
 
 
 
