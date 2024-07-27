@@ -10,7 +10,7 @@
     <div class="container">
         {% if question %}
             <h1>{{ question }}</h1>
-            <form method="POST" action="{{ url_for('answer') }}">
+            <form method="POST" action="{{ url_for('responder') }}">
                 {% if options %}
                     {% for option in options %}
                         <button type="submit" name="answer" value="{{ option }}">{{ option }}</button>
@@ -22,9 +22,10 @@
             </form>
         {% elif result %}
             <h1>¡Tu personaje es {{ result }}!</h1>
-            <a href="{{ url_for('inicio_jugar') }}">Jugar de nuevo</a>
+            <a href="{{ url_for('iniciar_juego') }}">Jugar de nuevo</a>
         {% endif %}
     </div>
 </body>
 </html>
+
 

@@ -1,4 +1,5 @@
-from flask import Flask, flash, jsonify, redirect, request, render_template, url_for
+from flask import Flask, flash, jsonify, redirect, request, render_template, url_for, session
+
 import mysql.connector as connector
 import os
 
@@ -14,17 +15,17 @@ def get_db_connection():
     db_config = {
         'host': 'db',
         'user': 'mysql',
-        'password': 1234,
+        'password': '1234',  # La contraseña debe ser una cadena
         'database': 'personajes_test',
         'port': 3306
     }
     connection = connector.connect(
-                user='mysql', 
-                password=1234,
-                host='db', # name of the mysql service as set in the docker compose file
-                database='personajes_test',
+                user=db_config['user'],
+                password=db_config['password'],
+                host=db_config['host'],
+                database=db_config['database'],
                 auth_plugin='mysql_native_password')
-
+    return connection
 @app.route('/personajes')
 def lista():
     connection = get_db_connection()
@@ -135,8 +136,68 @@ def agregar():
         return redirect(url_for('editar'))
     return render_template('agregar.html')
 
+# Módulo Jugar
+preguntas = [
+    {"atributo": "edad", "pregunta": "¿En qué rango de edad se encuentra tu personaje?", "opciones": ["niño", "joven", "adulto"]},
+    {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno"]},
+    {"atributo": "raza", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": "humano", "no": "no humano"},
+    {"atributo": "genero", "pregunta": "¿Tu personaje es mujer?", "opciones": ["Sí", "No"], "sí": "mujer", "no": "hombre"},
+    {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta"]}
+]
+
+@app.route('/jugar')
+def iniciar_juego():
+    session.clear()
+    session['pregunta_actual'] = 0
+    session['candidatos'] = None
+    return render_template('jugar.html', question=preguntas[0]["pregunta"], options=preguntas[0].get("opciones"))
+
+@app.route('/rta', methods=['POST'])
+def responder():
+    respuesta = request.form['answer']
+    pregunta_actual = session.get('pregunta_actual', 0)
+    pregunta = preguntas[pregunta_actual]
+    atributo = pregunta["atributo"]
+
+    valor_esperado = respuesta
+
+    if session.get('candidatos') is None:
+        conexion = get_db_connection()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT * FROM pj")
+        session['candidatos'] = cursor.fetchall()
+        session['nombres_columnas'] = [desc[0] for desc in cursor.description]
+        cursor.close()
+        conexion.close()
+
+    indices_columnas = {desc: index for index, desc in enumerate(session['nombres_columnas'])}
+    indice_atributo = indices_columnas[atributo]
+
+    nuevos_candidatos = [
+        personaje for personaje in session['candidatos']
+        if personaje[indice_atributo] == valor_esperado
+    ]
+
+    session['candidatos'] = nuevos_candidatos
+
+    if len(nuevos_candidatos) == 1:
+        result = nuevos_candidatos[0][session['nombres_columnas'].index('nombre')]
+        return render_template('jugar.html', result=result)
+    
+    elif len(nuevos_candidatos) == 0 or pregunta_actual + 1 >= len(preguntas):
+        return render_template('jugar.html', result="No se pudo determinar el personaje")
+    
+    else:
+        session['pregunta_actual'] += 1
+        siguiente_pregunta = preguntas[session['pregunta_actual']]["pregunta"]
+        siguientes_opciones = preguntas[session['pregunta_actual']].get("opciones")
+        return render_template('jugar.html', question=siguiente_pregunta, options=siguientes_opciones)
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
+
+
+
 
 '''@app.route('/personajes', methods=['GET', 'POST'])
 def pj():
