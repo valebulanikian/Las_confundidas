@@ -5,46 +5,62 @@ body {
     background-color: #000033;
     color: #ffffff;
     display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
     height: 100vh;
+    box-sizing: border-box;
 }
 
 .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido en el eje vertical */
     width: 100%;
-    height: 100%;
-}
-
-header {
-    flex: 1;
-}
-
-.header-img {
-    /*width: 100vw; /* Ocupa todo el ancho de la pantalla */
-    width: 70vw;
-    height: auto;
-    display: block;
-}
-
-.sidebar {
-    width: 250px; /* Ancho del menú lateral */
-    background-color: #003366; /* Color de fondo del menú */
+    max-width: 1200px; /* Limitar el ancho máximo */
     padding: 20px;
     box-sizing: border-box;
 }
 
-.sidebar a {
-    color: #ffcc00;
-    text-decoration: none;
-    display: block;
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centra la imagen */
     margin-bottom: 20px;
 }
 
-.sidebar a:hover {
+.header-img {
+    width: 100%; /* Asegura que la imagen ocupe el ancho disponible */
+    max-width: 800px; /* Ajusta el ancho máximo de la imagen */
+    height: auto;
+}
+
+nav.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+nav.sidebar a {
+    color: #ffcc00;
+    text-decoration: none;
+    margin: 10px 0;
+}
+
+nav.sidebar a h2 {
+    margin: 0;
+    font-size: 1.5rem; /* Tamaño del texto de los enlaces */
+}
+
+nav.sidebar a:hover {
     text-decoration: underline;
 }
 
 main {
-    flex: 1;
-    padding: 20px;
+    text-align: center; /* Centra el texto en el main */
+}
+
+main p {
+    font-size: 2rem; /* Tamaño del texto del párrafo */
+    color: #ffcc00;
 }

@@ -15,17 +15,18 @@ def get_db_connection():
     db_config = {
         'host': 'db',
         'user': 'mysql',
-        'password': '1234',  # La contraseña debe ser una cadena
+        'password': 1234,
         'database': 'personajes_test',
         'port': 3306
     }
     connection = connector.connect(
-                user=db_config['user'],
-                password=db_config['password'],
-                host=db_config['host'],
-                database=db_config['database'],
+                user='mysql', 
+                password=1234,
+                host='db', # name of the mysql service as set in the docker compose file
+                database='personajes_test',
                 auth_plugin='mysql_native_password')
     return connection
+
 @app.route('/personajes')
 def lista():
     connection = get_db_connection()
