@@ -157,11 +157,13 @@ def agregar():
 # Módulo Jugar
 preguntas = [
     {"atributo": "edad", "pregunta": "¿En qué rango de edad se encuentra tu personaje?", "opciones": ["niño", "joven", "adulto"]},
-    {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno", "blanco"]},
+    {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno", "gris", "marrón", "morado"]},
     {"atributo": "raza", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "Sí": "humano", "No": "no humano"},
     {"atributo": "genero", "pregunta": "¿Tu personaje es mujer?", "opciones": ["Sí", "No"], "sí": "mujer", "no": "hombre"},
-    {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta"]}
+    {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta", "café", "gris", "morado"]},
+    {"atributo": "ropa", "pregunta": "¿Cómo se viste tu personaje?", "opciones": ["chaleco", "ninguna", "pantalones", "traje", "túnica", "vestido"]}
 ]
+
     # Convertir la respuesta en función de la pregunta específica
    
 @app.route('/jugar')
@@ -228,7 +230,7 @@ def responder():
         return render_template('jugar.html', result=result)
     
     elif len(nuevos_candidatos) == 0 or pregunta_actual + 1 >= len(preguntas):
-        return render_template('jugar.html', result="No se pudo determinar el personaje")
+        return render_template('jugar.html', result=" indeterminado")
     
     else:
         session['pregunta_actual'] += 1

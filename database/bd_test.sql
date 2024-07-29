@@ -55,7 +55,7 @@ INSERT INTO pj (nombre, edad, ropa, pelo, raza, genero, color) VALUES
 ('Winnie the Pooh', 'niño', 'camiseta', 'amarillo', 'no humano', 'hombre', 'amarillo'),
 ('Kanga', 'niño', 'ninguna', 'café', 'no humano', 'mujer', 'café');
 
-select pelo from pj group by pelo;
+select color from pj group by color;
 
 select * from pj where pelo='blanco';
 
@@ -68,6 +68,8 @@ UPDATE pj set ropa='pantalones' where ropa='pantalones cortos';
 UPDATE pj set ropa='túnica' where ropa='túnica roja';
 UPDATE pj set ropa='chaleco' where ropa='camiseta';
 UPDATE pj set pelo='gris' where pelo='blanco';
+UPDATE pj set color='violeta' where color='púrpura';
+UPDATE pj set color='celeste' where color='turquesa';
 
  
 -- SELECCIONAR TODOS LOS DATOS DE LA TABLA DE PERSONAJES
