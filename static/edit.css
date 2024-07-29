@@ -3,22 +3,22 @@ body {
     font-family: "Times New Roman", Times, serif;
     margin: 0;
     padding: 0;
-    background-color: #000033; /* Azul oscuro */
-    color: #f1f1f1; /* Blanco claro */
+    background-color: #000033; 
+    color: #f1f1f1; 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ocupa el 100% de la altura de la ventana */
-    overflow: hidden; /* Evitar scroll */
+    height: 100vh;
+
 }
 
 .container {
-    width: 100vw; /* Ancho total de la ventana del navegador */
-    height: 100vh; /* Alto total de la ventana del navegador */
-    overflow: auto; /* Permitir desplazamiento vertical si es necesario */
+    width: 100vw; 
+    height: 100vh; 
+    overflow: auto; 
     padding: 20px;
-    box-sizing: border-box; /* Incluye padding en el ancho y alto total */
-    background-color: #000033; /* Fondo azul oscuro */
+    box-sizing: border-box; 
+    background-color: #000033; 
 }
 
 h1 {

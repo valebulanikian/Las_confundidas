@@ -9,7 +9,13 @@
 <body>
     <div class="container">
         <header>
-            <img src="{{ url_for('static', filename='mickey_fantasia.jpeg') }}" alt="Mickey Mouse Fantasia" class="header-img">
+            <div class="header-content">
+                <img src="{{ url_for('static', filename='mickey_fantasia.jpeg') }}" alt="Mickey Mouse Fantasia" class="header-img">
+                <div class="header-description">
+                    <h2>¡Bienvenido al Juego de Adivinanzas!</h2>
+                    <p>Pensa en un personaje y presiona "Jugar". ¡Mickey adivinará tu personaje de Disney!</p>
+                </div>
+            </div>
         </header>
         <main>
             <h1>Explora el mágico mundo de Disney</h1>

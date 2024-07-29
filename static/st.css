@@ -1,24 +1,24 @@
-/* st.css */
+
 body {
     font-family: "Times New Roman", Times, serif;
     margin: 0;
     padding: 0;
-    background-color: #000033; /* Azul oscuro */
-    color: #f1f1f1; /* Color de texto blanco claro */
-    overflow: hidden; /* Evitar scroll en el body */
+    background-color: #000033; 
+    color: #f1f1f1; 
+    overflow: hidden; 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Ocupa el 100% de la altura de la ventana */
+    height: 100vh; 
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    width: 100vw; /* Ancho total de la ventana del navegador */
-    min-height: 100vh; /* Altura mínima de la ventana del navegador */
-    overflow-x: hidden; /* Evitar desplazamiento horizontal en el contenedor */
-    overflow-y: auto; /* Permitir desplazamiento vertical si es necesario */
+    width: 100vw; 
+    min-height: 100vh; 
+    overflow-x: hidden;
+    overflow-y: auto; 
 }
 
 .book {
@@ -26,21 +26,21 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #000033; /* Fondo azul oscuro */
+    background-color: #000033; 
     padding: 20px;
-    box-sizing: border-box; /* Incluye padding en el ancho y alto total */
+    box-sizing: border-box; 
 }
 
 .page {
     display: flex;
-    flex-direction: row; /* Organiza la imagen y el texto en columnas */
+    flex-direction: row; 
     align-items: center;
-    background-color: #FCF7FE; /* Blanco roto */
-    border: 1px solid #F2C46D; /* Amarillo claro */
+    background-color: #FCF7FE; 
+    border: 1px solid #F2C46D;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 1200px; /* Ancho máximo para mantener el diseño ordenado */
+    max-width: 1200px; 
     height: auto;
 }
 
@@ -54,7 +54,7 @@ body {
 
 .image {
     max-width: 100%;
-    max-height: 50vh; /* Ajusta la altura máxima de la imagen para adaptarse a la ventana */
+    max-height: 50vh; 
     width: auto;
     height: auto;
     border: 1px solid #ddd;
@@ -71,19 +71,19 @@ body {
 
 p {
     margin: 10px 0;
-    color: #000000; /* Negro */
-    font-size: 1rem; /* Tamaño de fuente relativo al tamaño de la fuente raíz */
+    color: #000000; 
+    font-size: 1rem; 
 }
 
 strong {
-    color: #000000; /* Negro */
+    color: #000000; 
     text-transform: uppercase;
 }
 
 .title {
     text-align: center;
-    color: #F2C46D; /* Amarillo claro */
-    font-size: 2rem; /* Tamaño de fuente relativo al tamaño de la fuente raíz */
+    color: #F2C46D; 
+    font-size: 2rem; 
 }
 
 /* Botones adicionales */
@@ -91,25 +91,25 @@ strong {
     display: inline-block;
     padding: 10px 20px;
     margin: 10px;
-    font-size: 1rem; /* Tamaño de fuente relativo al tamaño de la fuente raíz */
+    font-size: 1rem; 
     font-weight: bold;
     text-decoration: none;
-    color: #f1f1f1; /* Blanco */
-    background-color: #ffcc00; /* Amarillo */
+    color: #f1f1f1;
+    background-color: #ffcc00; 
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s, transform 0.3s;
 }
 
 .btn:hover,
 .btn:focus {
-    background-color: #ff9900; /* Amarillo más oscuro */
-    color: #000033; /* Azul oscuro */
-    transform: scale(1.05); /* Aumento sutil del tamaño */
+    background-color: #ff9900; 
+    color: #000033; 
+    transform: scale(1.05); 
 }
 
 .btn:active {
-    background-color: #cc7a00; /* Amarillo aún más oscuro */
-    transform: scale(0.95); /* Reducir el tamaño al hacer clic */
+    background-color: #cc7a00; 
+    transform: scale(0.95); 
 }
 
 /* Media Queries para diseño responsivo */
@@ -162,6 +162,7 @@ strong {
     p {
         font-size: 0.8rem;
     }
+   
 }
 
 

@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Personajes Disney</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='st.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jugar.css') }}">
 </head>
 <body>
     <div class="container">
         {% if question %}
             <h1>{{ question }}</h1>
-            <form method="POST" action="{{ url_for('responder') }}">
+            <form method="POST" action="{{ url_for('responder') }}" class="form">
                 {% if options %}
                     {% for option in options %}
-                        <button type="submit" name="answer" value="{{ option }}">{{ option }}</button>
+                        <button type="submit" name="answer" value="{{ option }}" class="btn-option">{{ option }}</button>
                     {% endfor %}
                 {% else %}
-                    <button type="submit" name="answer" value="Sí">Sí</button>
-                    <button type="submit" name="answer" value="No">No</button>
+                    <button type="submit" name="answer" value="Sí" class="btn-option">Sí</button>
+                    <button type="submit" name="answer" value="No" class="btn-option">No</button>
                 {% endif %}
             </form>
         {% elif result %}
             <h1>¡Tu personaje es {{ result }}!</h1>
             <a href="{{ url_for('iniciar_juego') }}" class="btn">Jugar de nuevo</a>
-            <a href="{{ url_for('home') }}" class="btn"> Volver al inicio</a>
+            <a href="{{ url_for('home') }}" class="btn">Volver al inicio</a>
+            <a href="{{ url_for('agregar') }}" class="btn">¿Deseas agregar un personaje nuevo?</a>
         {% endif %}
     </div>
 </body>

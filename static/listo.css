@@ -1,24 +1,23 @@
-/* update-character.css */
+
 body {
     font-family: "Times New Roman", Times, serif;
     margin: 0;
     padding: 0;
-    background-color: #000033; /* Azul oscuro */
-    color: #f1f1f1; /* Blanco claro */
+    background-color: #000033; 
+    color: #f1f1f1; 
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Altura mínima de la ventana del navegador */
-    overflow: hidden; /* Evitar scroll */
-}
+    min-height: 100vh; 
+    overflow: hidden; 
 
 .container {
     width: 100%;
-    max-width: 800px; /* Ancho máximo para el contenedor */
+    max-width: 800px; 
     padding: 20px;
-    box-sizing: border-box; /* Incluye padding en el ancho total */
-    background-color: #000033; /* Fondo azul oscuro */
-    color: #f1f1f1; /* Blanco claro */
+    box-sizing: border-box; 
+    background-color: #000033; 
+    color: #f1f1f1;
     text-align: center;
 }
 
@@ -27,8 +26,8 @@ body {
 }
 
 h1 {
-    color: #F2C46D; /* Amarillo claro */
-    font-size: 2.5rem; /* Tamaño grande del título */
+    color: #F2C46D; 
+    font-size: 2.5rem; 
 }
 
 .update-form {
@@ -41,34 +40,34 @@ h1 {
 .update-form label {
     display: block;
     margin-bottom: 5px;
-    color: #F2C46D; /* Amarillo claro */
-    font-size: 1rem; /* Tamaño de fuente */
+    color: #F2C46D; 
+    font-size: 1rem; 
 }
 
 .update-form input[type="text"] {
     width: 100%;
-    max-width: 500px; /* Ancho máximo del campo de entrada */
+    max-width: 500px; 
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 15px;
-    box-sizing: border-box; /* Incluye padding en el ancho total */
+    box-sizing: border-box; 
 }
 
 button.btn-update {
-    background-color: #4CAF50; /* Verde */
+    background-color: #4CAF50; 
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 1rem; /* Tamaño de fuente */
+    font-size: 1rem; 
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 10px;
 }
 
 button.btn-update:hover {
-    background-color: #45a049; /* Verde más oscuro */
+    background-color: #45a049; 
 }
 
 .button-container {
@@ -78,24 +77,25 @@ button.btn-update:hover {
 a.btn-home, a.btn-edit {
     display: inline-block;
     text-align: center;
-    background-color: #2196F3; /* Azul */
+    background-color: #2196F3; 
     color: #fff;
     padding: 10px 20px;
     margin: 10px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 1.2rem; /* Tamaño de fuente mayor */
+    font-size: 1.2rem; 
     transition: background-color 0.3s, transform 0.3s;
 }
 
 a.btn-home:hover {
-    background-color: #1976D2; /* Azul más oscuro */
+    background-color: #1976D2; 
 }
 
 a.btn-edit {
-    background-color: #FFC107; /* Amarillo */
+    background-color: #FFC107; 
 }
 
 a.btn-edit:hover {
-    background-color: #FFA000; /* Amarillo más oscuro */
+    background-color: #FFA000; 
+}
 }

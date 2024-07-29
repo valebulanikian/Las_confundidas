@@ -83,19 +83,19 @@ h1 {
 }
 
 button.btn-submit {
-    background-color: #4CAF50; /* Verde */
+    background-color: #4CAF50; 
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 1rem; /* Tamaño de fuente */
+    font-size: 1rem; 
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 10px;
 }
 
 button.btn-submit:hover {
-    background-color: #45a049; /* Verde más oscuro */
+    background-color: #45a049; 
 }
 
 .image-container {
@@ -103,9 +103,9 @@ button.btn-submit:hover {
 }
 
 .image-container img {
-    width: 100%; /* Ajusta el ancho máximo de la imagen al contenedor */
-    max-height: 10vh; /* Limita la altura máxima de la imagen a 10% de la altura de la ventana */
-    object-fit: cover; /* Ajusta la imagen para cubrir el área sin deformarse */
+    width: 100%; 
+    max-height: 10vh; 
+    object-fit: cover; 
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -113,16 +113,16 @@ button.btn-submit:hover {
 a.btn-home {
     display: block;
     text-align: center;
-    background-color: #2196F3; /* Azul */
+    background-color: #2196F3; 
     color: #fff;
     padding: 10px;
     margin: 20px auto;
     width: 200px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 1.2rem; /* Tamaño de fuente mayor */
+    font-size: 1.2rem; 
 }
 
 a.btn-home:hover {
-    background-color: #1976D2; /* Azul más oscuro */
+    background-color: #1976D2; 
 }

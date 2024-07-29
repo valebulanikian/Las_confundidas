@@ -118,3 +118,9 @@ use personajes_test;
 
 -- EJEMPLO DE CONSULTA CON JOIN (SI ES NECESARIO)
 -- SELECT pj.ropa, preguntas.pregunta FROM pj, preguntas WHERE preguntas.id = 2 GROUP BY pj.ropa;
+
+
+
+
+
+

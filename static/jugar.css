@@ -1,0 +1,88 @@
+/* st.css */
+body {
+    font-family: "Times New Roman", Times, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000033; 
+    color: #f1f1f1; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem; 
+    color: #F2C46D; 
+    margin-bottom: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.btn-option {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1rem; 
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff; 
+    background-color: #ffcc00; 
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.btn-option:hover,
+.btn-option:focus {
+    background-color: #ff9900; 
+    color: #000033; 
+    transform: scale(1.05); 
+}
+
+.btn-option:active {
+    background-color: #cc7a00; 
+    transform: scale(0.95); 
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1rem; 
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff; 
+    background-color: #ffcc00; 
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.btn:hover,
+.btn:focus {
+    background-color: #ff9900; 
+    color: #000033;
+    transform: scale(1.05); 
+}
+
+.btn:active {
+    background-color: #cc7a00; 
+    transform: scale(0.95);
+}
