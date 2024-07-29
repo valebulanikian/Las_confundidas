@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Personaje</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="static\agregar.css">
 </head>
 <body>
     <!-- Mostrar mensajes flash -->
     {% with messages = get_flashed_messages() %}
     {% if messages %}
             {% for message in messages %}
-            <p>{{ message }}</p>
+            <p class="flash-message">{{ message }}</p>
             {% endfor %}
     {% endif %}
     {% endwith %}
 
     <div class="container">
-        <form action="/agregar" method="POST">
-
+        <div class="header-container">
+            <h1>Agregar Nuevo Personaje</h1>
+        </div>
+        
+        <form action="/agregar" method="POST" class="character-form">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
             
@@ -26,22 +29,22 @@
             <input type="text" id="edad" name="edad" placeholder="Joven, adulto, niño" required>
             
             <div class="row">
-                <div>
+                <div class="form-group">
                     <label for="ropa">Ropa:</label>
                     <input type="text" id="ropa" name="ropa" required>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="pelo">Pelo:</label>
                     <input type="text" id="pelo" name="pelo" placeholder="Rubio, negro, sin pelo" required>
                 </div>
             </div>
     
             <div class="row">
-                <div>
+                <div class="form-group">
                     <label for="raza">Raza:</label>
                     <input type="text" id="raza" name="raza" placeholder="Humano, no humano" required>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="genero">Género:</label>
                     <input type="text" id="genero" name="genero" placeholder="mujer/hombre" required>
                 </div>
@@ -50,17 +53,14 @@
             <label for="color">Color:</label>
             <input type="text" id="color" name="color" placeholder="Color que identifica a tu personaje" required>
             
-            <button type="submit">Agregar</button>
+            <button type="submit" class="btn btn-submit">Agregar</button>
         </form>
-    </div>
 
-    <div class="image-container">
-        <img src="../static/disney.jpg" alt="Imagen Disney">
-    </div>
+        <div class="image-container">
+            <img src="../static/disney.jpg" alt="Imagen Disney">
+        </div>
 
-    <div class="header-container">
-        <h1>Agregar Nuevo Personaje</h1>
-        <a href="http://127.0.0.1:5000/"><h2>Volver al inicio</h2></a>
+        <a href="http://127.0.0.1:5000/" class="btn btn-home">Volver al inicio</a>
     </div>
 </body>
 </html>

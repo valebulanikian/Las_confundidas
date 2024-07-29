@@ -1,0 +1,128 @@
+/* add-character.css */
+body {
+    font-family: "Times New Roman", Times, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000033; /* Azul oscuro */
+    color: #f1f1f1; /* Blanco claro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Altura mínima de la ventana del navegador */
+    overflow: hidden; /* Evitar scroll */
+}
+
+.container {
+    width: 100%;
+    max-width: 900px; /* Ancho máximo para el contenedor */
+    padding: 20px;
+    box-sizing: border-box; /* Incluye padding en el ancho total */
+    background-color: #000033; /* Fondo azul oscuro */
+    color: #f1f1f1; /* Blanco claro */
+    text-align: center;
+}
+
+.header-container {
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #F2C46D; /* Amarillo claro */
+    font-size: 2.5rem; /* Tamaño grande del título */
+}
+
+.flash-message {
+    background-color: #F2C46D; /* Amarillo claro */
+    color: #000033; /* Azul oscuro */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 1rem; /* Tamaño de fuente */
+}
+
+.character-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.character-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #F2C46D; /* Amarillo claro */
+}
+
+.character-form input[type="text"] {
+    width: 100%;
+    max-width: 500px; /* Ancho máximo del campo de entrada */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box; /* Incluye padding en el ancho total */
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px; /* Ancho máximo del contenedor de las filas */
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-group:last-child {
+    margin-right: 0;
+}
+
+button.btn-submit {
+    background-color: #4CAF50; /* Verde */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem; /* Tamaño de fuente */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button.btn-submit:hover {
+    background-color: #45a049; /* Verde más oscuro */
+}
+
+.image-container {
+    margin-top: 20px;
+}
+
+.image-container img {
+    width: 100%; /* Ajusta el ancho máximo de la imagen al contenedor */
+    max-height: 10vh; /* Limita la altura máxima de la imagen a 10% de la altura de la ventana */
+    object-fit: cover; /* Ajusta la imagen para cubrir el área sin deformarse */
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+a.btn-home {
+    display: block;
+    text-align: center;
+    background-color: #2196F3; /* Azul */
+    color: #fff;
+    padding: 10px;
+    margin: 20px auto;
+    width: 200px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2rem; /* Tamaño de fuente mayor */
+}
+
+a.btn-home:hover {
+    background-color: #1976D2; /* Azul más oscuro */
+}
