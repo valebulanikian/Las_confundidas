@@ -11,9 +11,9 @@ def get_db_connection():
     db_config = {
         'host': 'localhost',
         'user': 'root',
-        'password': '123',
+        'password': 'mi_contraseña',
         'database': 'personajes_test',
-        'port': 3307
+        'port': 3306
     }
     connection = connector.connect(**db_config)
     return connection
@@ -168,9 +168,12 @@ preguntas = [
    
 @app.route('/jugar')
 def iniciar_juego():
+    # Empezar el juego limpiando la sesión y seteando las variables iniciales
     session.clear()
     session['pregunta_actual'] = 0
     session['candidatos'] = None
+
+    # Muestra la primera pregunta con sus opciones
     return render_template('jugar.html', question=preguntas[0]["pregunta"], options=preguntas[0].get("opciones"))
 
 @app.route('/rta', methods=['POST'])
@@ -199,7 +202,7 @@ def responder():
         # Para otros atributos, simplemente usa la respuesta proporcionada
         valor_esperado = respuesta
 
-
+    # Si no hay candidatos aún, cargamos todos los personajes de la DB
     if session.get('candidatos') is None:
         conexion = get_db_connection()
         cursor = conexion.cursor()
@@ -209,9 +212,11 @@ def responder():
         cursor.close()
         conexion.close()
 
+    # Diccionario de índices de columnas para acceder a los valores fácil
     indices_columnas = {desc: index for index, desc in enumerate(session['nombres_columnas'])}
     indice_atributo = indices_columnas[atributo]
     
+    #Chequear los valores que están siendo dados
     print(f"Atributo actual: {atributo}")
     print(f"Valor esperado: {valor_esperado}")
 
@@ -221,7 +226,8 @@ def responder():
     ]
 
     session['candidatos'] = nuevos_candidatos
-
+    
+    #Chequear los posibles personajes
     print(f"Candidatos antes del filtrado: {session['candidatos']}")
     print(f"Candidatos después del filtrado: {nuevos_candidatos}")
 
@@ -233,12 +239,14 @@ def responder():
         return render_template('jugar.html', result=" indeterminado")
     
     else:
+        
         session['pregunta_actual'] += 1
+
         siguiente_pregunta = preguntas[session['pregunta_actual']]["pregunta"]
         siguientes_opciones = preguntas[session['pregunta_actual']].get("opciones")
         return render_template('jugar.html', question=siguiente_pregunta, options=siguientes_opciones)
     
-
+    ### PERSONAJES
     #############################################################
 
 @app.route('/personajes')
