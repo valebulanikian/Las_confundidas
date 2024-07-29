@@ -8,16 +8,19 @@
 </head>
 <body>
     <div class="container">
-        <h1  class="title">Lista de Personajes</h1>
+        <h1 class="title">Lista de Personajes</h1>
         <div class="book">
             {% if results %}
-
             <div class="page">
+                <div class="image-container">
+                    <img src="{{ url_for('static', filename='imgsCuentos/' ~ results[0].nombre ~ '.jpg') }}" alt="Imagen del Cuento" class="image">
+                </div>
                 {% for attribute, value in results[0].items() %}
-                    <p><strong>{{ attribute }}:</strong> {{ value }}</p>
+                    {% if attribute != 'nomCuento' %}
+                        <p><strong>{{ attribute }}:</strong> {{ value }}</p>
+                    {% endif %}
                 {% endfor %}
             </div>
-
             {% else %}
                 <p>No hay personajes disponibles.</p>
             {% endif %}
@@ -25,15 +28,16 @@
 
         <div class="pagination">
             {% if page > 1 %}
-            <a href="{{ url_for('lista', page=page-1) }}">Anterior</a>
+            <a href="{{ url_for('lista', page=page-1) }}" class="btn">Anterior</a>
             {% endif %}
             {% if page < pages %}
-            <a href="{{ url_for('lista', page=page+1) }}">Siguiente</a>
+            <a href="{{ url_for('lista', page=page+1) }}" class="btn">Siguiente</a>
             {% endif %}
         </div>
-        
-        <a href="{{ url_for('home') }}"><h1>Volver al inicio</h1></a>
+
+        <a href="{{ url_for('home') }}" class="btn">Volver al inicio</a>
     </div>
 </body>
 </html>
+
 
