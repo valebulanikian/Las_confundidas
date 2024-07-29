@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Personajes Disney</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='st.css') }}">
 </head>
 <body>
     <div class="container">
@@ -22,7 +22,8 @@
             </form>
         {% elif result %}
             <h1>¡Tu personaje es {{ result }}!</h1>
-            <a href="{{ url_for('iniciar_juego') }}">Jugar de nuevo</a>
+            <a href="{{ url_for('iniciar_juego') }}" class="btn">Jugar de nuevo</a>
+            <a href="{{ url_for('home') }}" class="btn"> Volver al inicio</a>
         {% endif %}
     </div>
 </body>

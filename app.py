@@ -6,24 +6,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
 
-#ATENCION!! <------
-#esta es TU CONEXION CON LA BBDD VALE
-#Descomentá esto cuando lo vayas a usar, y comenta mi configuracion de la BBDD
-
-"""
-# Configuración de la conexión a la base de datos DE VALE
-def get_db_connection():
-    db_config = {
-        'host': 'db',
-@@ -17,6 +22,21 @@ def get_db_connection():
-    }
-    connection = connector.connect(**db_config)
-    return connection
-"""
-
-
-# Configuración de la conexión a la base de datos DE LARA
-ip = '192.168.99.100'
+p = '192.168.99.100'
 def get_db_connection():
     db_config = {
         'host': ip,
@@ -49,7 +32,7 @@ def lista():
     myCursor = connection.cursor()
 
     query = """
-    SELECT pj.nombre, pj.edad, pj.pelo, pj.raza, pj.genero, pj.color, cuentos.nomCuento, cuentos.sinopsis
+    SELECT pj.nombre, pj.edad, pj.pelo, pj.raza, pj.genero, pj.color, cuentos.nombre, cuentos.sinopsis
     FROM pj
     JOIN cuentos ON cuentos.id = pj.id
     LIMIT %s OFFSET %s;
@@ -72,7 +55,6 @@ def lista():
     connection.close()
 
     return render_template('personajes.html', results=result_list, page=page, pages=pages)
-
 
 
 @app.route('/editar')
@@ -123,7 +105,7 @@ def actualizar(id):
         myCursor.close()
         connection.close()
         
-        flash('Contacto actualizado', 'success')
+        flash('Personaje actualizado', 'success')
         return redirect(url_for('editar'))
 
 @app.route('/eliminar/<string:id>',methods=['POST'])
@@ -137,7 +119,7 @@ def eliminar(id):
     myCursor.close()
     connection.close()
 
-    flash('Contacto eliminado exitosamente')
+    flash('Personaje eliminado exitosamente')
 
     return redirect(url_for('editar'))
 
@@ -175,12 +157,13 @@ def agregar():
 # Módulo Jugar
 preguntas = [
     {"atributo": "edad", "pregunta": "¿En qué rango de edad se encuentra tu personaje?", "opciones": ["niño", "joven", "adulto"]},
-    {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno"]},
-    {"atributo": "raza", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "sí": "humano", "no": "no humano"},
+    {"atributo": "pelo", "pregunta": "¿De qué color es el pelo de tu personaje?", "opciones": ["rubio", "negro", "rojo", "ninguno", "blanco"]},
+    {"atributo": "raza", "pregunta": "¿Es humano tu personaje?", "opciones": ["Sí", "No"], "Sí": "humano", "No": "no humano"},
     {"atributo": "genero", "pregunta": "¿Tu personaje es mujer?", "opciones": ["Sí", "No"], "sí": "mujer", "no": "hombre"},
     {"atributo": "color", "pregunta": "¿Qué color representa a tu personaje?", "opciones": ["celeste", "rosa", "rojo", "azul", "amarillo", "marrón", "verde", "naranja", "violeta"]}
 ]
-
+    # Convertir la respuesta en función de la pregunta específica
+   
 @app.route('/jugar')
 def iniciar_juego():
     session.clear()
@@ -194,8 +177,26 @@ def responder():
     pregunta_actual = session.get('pregunta_actual', 0)
     pregunta = preguntas[pregunta_actual]
     atributo = pregunta["atributo"]
+    
+    if atributo == "raza":
+        # Mapea la respuesta a "humano" o "no humano"
+        if respuesta in pregunta:
+            valor_esperado = pregunta[respuesta]
+        else:
+            valor_esperado = respuesta
 
-    valor_esperado = respuesta
+    elif atributo == "genero":
+        # Mapea la respuesta a "mujer" o "hombre"
+        respuesta_lower = respuesta.lower()
+        if respuesta_lower in pregunta:
+            valor_esperado = pregunta[respuesta_lower]
+        else:
+            valor_esperado = respuesta
+
+    else:
+        # Para otros atributos, simplemente usa la respuesta proporcionada
+        valor_esperado = respuesta
+
 
     if session.get('candidatos') is None:
         conexion = get_db_connection()
@@ -208,6 +209,9 @@ def responder():
 
     indices_columnas = {desc: index for index, desc in enumerate(session['nombres_columnas'])}
     indice_atributo = indices_columnas[atributo]
+    
+    print(f"Atributo actual: {atributo}")
+    print(f"Valor esperado: {valor_esperado}")
 
     nuevos_candidatos = [
         personaje for personaje in session['candidatos']
@@ -215,6 +219,9 @@ def responder():
     ]
 
     session['candidatos'] = nuevos_candidatos
+
+    print(f"Candidatos antes del filtrado: {session['candidatos']}")
+    print(f"Candidatos después del filtrado: {nuevos_candidatos}")
 
     if len(nuevos_candidatos) == 1:
         result = nuevos_candidatos[0][session['nombres_columnas'].index('nombre')]
@@ -232,7 +239,7 @@ def responder():
 
     #############################################################
 
-"""@app.route('/personajes')
+@app.route('/personajes')
 def pj():
         page = int(request.args.get('page', 1))
         per_page = 10
@@ -252,7 +259,7 @@ def pj():
         cursor.close()
         db.close()
 
-        return render_template('personajes.html', results=results, previous_page=max(1, page - 1), next_page=min(pages, page + 1))"""
+        return render_template('personajes.html', results=results, previous_page=max(1, page - 1), next_page=min(pages, page + 1))
 
 
 if __name__ == "__main__":
