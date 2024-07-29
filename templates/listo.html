@@ -1,23 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualizar Registro</title>
+    <link rel="stylesheet" href="../static/listo.css">
 </head>
 <body>
-    <h2>Aquí puede actualizar los datos del registro:</h2>
-    <form action="{{ url_for('actualizar', id=results[0]) }}" method="POST" id="myForm">
-        <input type="hidden" name="id" id="formId" value="{{ results[0] }}">
-        <br>
-        <input type="text" name="nombre" value="{{ results[1] }}"> <br> <br>
-        <input type="text" name="edad" value="{{ results[2] }}"> <br> <br>
-        <input type="text" name="ropa" value="{{ results[3] }}"> <br> <br>
-        <input type="text" name="pelo" value="{{ results[4] }}"> <br> <br>
-        <input type="text" name="raza" value="{{ results[5] }}"> <br> <br>
-        <input type="text" name="genero" value="{{ results[6] }}"> <br> <br>
-        <input type="text" name="color" value="{{ results[7] }}">
-        <button type="submit" id="btnActualizar">Actualizar</button>        
-    </form>
+    <div class="container">
+        <div class="header-container">
+            <h1>Actualizar Registro</h1>
+        </div>
+
+        <form action="{{ url_for('actualizar', id=results[0]) }}" method="POST" id="myForm" class="update-form">
+            <input type="hidden" name="id" id="formId" value="{{ results[0] }}">
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" value="{{ results[1] }}" required>
+            
+            <label for="edad">Edad:</label>
+            <input type="text" name="edad" id="edad" value="{{ results[2] }}" required>
+            
+            <label for="ropa">Ropa:</label>
+            <input type="text" name="ropa" id="ropa" value="{{ results[3] }}" required>
+            
+            <label for="pelo">Pelo:</label>
+            <input type="text" name="pelo" id="pelo" value="{{ results[4] }}" required>
+            
+            <label for="raza">Raza:</label>
+            <input type="text" name="raza" id="raza" value="{{ results[5] }}" required>
+            
+            <label for="genero">Género:</label>
+            <input type="text" name="genero" id="genero" value="{{ results[6] }}" required>
+            
+            <label for="color">Color:</label>
+            <input type="text" name="color" id="color" value="{{ results[7] }}" required>
+            
+            <button type="submit" class="btn btn-update">Actualizar</button>
+        </form>
+
+        <div class="button-container">
+            <a href="http://127.0.0.1:5000/" class="btn btn-home">Volver al inicio</a>
+            <a href="{{ url_for('editar', id=results[0]) }}" class="btn btn-edit">Editar</a>
+        </div>
+    </div>
 </body>
 </html>

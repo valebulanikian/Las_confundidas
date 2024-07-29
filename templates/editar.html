@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados de la Consulta</title>
-    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='edit.css') }}">
 </head>
 <body>
-    <body>
+    <div class="container">
         <h1>Resultados de la Consulta</h1>
-    
+        
         <!-- Mostrar mensajes flash -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
+                {% for message in messages %}
+                <p class="flash-message">{{ message }}</p>
+                {% endfor %}
             {% endif %}
         {% endwith %}
-    
+        
         <table>
             <thead>
                 <tr>
@@ -33,50 +33,47 @@
                     <th>Acciones</th>      
                 </tr>
             </thead>
-        
-        <tbody>
-            {% for result in results %}
-            <tr>
-                <td>{{ result[0] }}</td> 
-                <td>{{ result[1] }}</td> 
-                <td>{{ result[2] }}</td>
-                <td>{{ result[3] }}</td>
-                <td>{{ result[4] }}</td>
-                <td>{{ result[5] }}</td>
-                <td>{{ result[6] }}</td>
-                <td>{{ result[7] }}</td>
-                <td>
-                    <form action="{{ url_for('listo', id=result[0]) }}" method="POST" style="display:inline;">
-                        <button type="submit" id="btnActualizar">Editar</button>
-                    </form></td>
-                <td>
-                    <form action="{{ url_for('eliminar', id=result[0]) }}" method="POST" style="display:inline;">
-                        <button type="submit" id="btnEliminar" name="=btnEliminar">Eliminar</button>
-                    </form>
-                </td>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result[0] }}</td> 
+                    <td>{{ result[1] }}</td> 
+                    <td>{{ result[2] }}</td>
+                    <td>{{ result[3] }}</td>
+                    <td>{{ result[4] }}</td>
+                    <td>{{ result[5] }}</td>
+                    <td>{{ result[6] }}</td>
+                    <td>{{ result[7] }}</td>
+                    <td>
+                        <form action="{{ url_for('listo', id=result[0]) }}" method="POST" class="action-form">
+                            <button type="submit" class="btn btn-update">Editar</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('eliminar', id=result[0]) }}" method="POST" class="action-form">
+                            <button type="submit" class="btn btn-delete">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-            </tr>
-            {% endfor %}
-        </tbody>
+        <a href="{{ url_for('home') }}" class="btn btn-home">Volver al inicio</a>
+    </div>
 
-
-    <a href="http://127.0.0.1:5000/"><h1>Volver al inicio</h1></a>
-    
-
-<!-- JAVASCRIPT CONTENIDO -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.btnEliminar').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const userResponse = confirm("¿Estás seguro de que deseas eliminar este personaje?");
-                if (!userResponse) {
-                    event.preventDefault(); 
-                }
+    <!-- JAVASCRIPT CONTENIDO -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const userResponse = confirm("¿Estás seguro de que deseas eliminar este personaje?");
+                    if (!userResponse) {
+                        event.preventDefault(); 
+                    }
+                });
             });
         });
-    });
-</script>
-        
-    <!--<script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>-->
+    </script>
 </body>
 </html>

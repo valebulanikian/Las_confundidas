@@ -9,11 +9,11 @@ app.secret_key = 'mysecretkey'
 p = '192.168.99.100'
 def get_db_connection():
     db_config = {
-        'host': ip,
+        'host': 'localhost',
         'user': 'root',
-        'password': 'mi_contraseña',
+        'password': '123',
         'database': 'personajes_test',
-        'port': 3306
+        'port': 3307
     }
     connection = connector.connect(**db_config)
     return connection

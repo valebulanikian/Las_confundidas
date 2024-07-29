@@ -15,11 +15,13 @@
                 <div class="image-container">
                     <img src="{{ url_for('static', filename='imgsCuentos/' ~ results[0].nombre ~ '.jpg') }}" alt="Imagen del Cuento" class="image">
                 </div>
-                {% for attribute, value in results[0].items() %}
-                    {% if attribute != 'nomCuento' %}
-                        <p><strong>{{ attribute }}:</strong> {{ value }}</p>
-                    {% endif %}
-                {% endfor %}
+                <div class="text-content">
+                    {% for attribute, value in results[0].items() %}
+                        {% if attribute != 'nomCuento' %}
+                            <p><strong>{{ attribute }}:</strong> {{ value }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             {% else %}
                 <p>No hay personajes disponibles.</p>
@@ -39,5 +41,4 @@
     </div>
 </body>
 </html>
-
 
